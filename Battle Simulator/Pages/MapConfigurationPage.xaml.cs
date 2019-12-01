@@ -21,12 +21,12 @@ namespace Battle_Simulator.Pages
     /// </summary>
     public partial class MapConfigurationPage : Page
     {
-        TrulyObservableCollection<Map.Map> maps;
-        public MapConfigurationPage(TrulyObservableCollection<Map.Map> maps)
+        DataManager DataManager;
+        public MapConfigurationPage(DataManager DataManager)
         {
             InitializeComponent();
-            this.maps = maps;
-            MapSelector.ItemsSource = this.maps;
+            this.DataManager = DataManager;
+            MapSelector.ItemsSource = this.DataManager.Maps;
             this.ShowsNavigationUI = false;
         }
 

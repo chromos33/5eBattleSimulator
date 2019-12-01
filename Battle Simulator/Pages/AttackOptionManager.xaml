@@ -1,0 +1,55 @@
+﻿<Page x:Class="Battle_Simulator.Pages.AttackOptionManager"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Battle_Simulator.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800" Background="White"
+      Title="AttackOptionManager">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Label Content="Attack Options" HorizontalAlignment="Stretch" Grid.Row="0" VerticalAlignment="Bottom" Margin="5,0,5,0"/>
+            <ListBox x:Name="AttackOptionSelector" Grid.Column="0" Margin="5,5,5,5" Grid.Row="1" SelectionChanged="AttackOptionSelector_SelectionChanged"/>
+        </Grid>
+        <Grid Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <Label Content="Name" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
+            <TextBox x:Name="Name" Text="" Grid.Row="2" TextWrapping="Wrap" Margin="0,0,5,0"/>
+            <Label Content="Die" Grid.Row="3" Grid.Column="0"/>
+            <ComboBox x:Name="Die" Grid.Row="4" Margin="0,0,5,0" />
+            <Label Content="Stat Mod" Grid.Row="3" Grid.Column="1"/>
+            <ComboBox x:Name="StatMod" Grid.Row="4" Grid.Column="1" Margin="5,0,0,0" />
+            <Label Content="Static Dmg Mod (-x/0/+x)" Grid.Row="1" Grid.Column="1"/>
+            <TextBox x:Name="FlatDmgBonus" Text="" Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" Margin="5,0,0,0"/>
+            <StackPanel Orientation="Horizontal" Grid.Row="8" Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,5,5">
+                <Button x:Name="Save" Content="Save" Click="Save_Click" Margin="0,0,5,0"  />
+                <Button x:Name="SaveNew" Content="Save New" Margin="5,0,0,0" Click="SaveNew_Click"  />
+            </StackPanel>
+            
+        </Grid>
+    </Grid>
+</Page>

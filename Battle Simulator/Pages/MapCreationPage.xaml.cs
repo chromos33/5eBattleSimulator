@@ -21,12 +21,12 @@ namespace Battle_Simulator.Pages
     /// </summary>
     public partial class MapCreationPage : Page
     {
-        TrulyObservableCollection<Map.Map> Maps;
-        public MapCreationPage(TrulyObservableCollection<Map.Map> maps)
+        DataManager DataManager;
+        public MapCreationPage(DataManager DataManager)
         {
             InitializeComponent();
-            Maps = maps;
-            MapSelector.ItemsSource = Maps;
+            this.DataManager = DataManager;
+            MapSelector.ItemsSource = DataManager.Maps;
             this.ShowsNavigationUI = false;
         }
         private void WidthInputField_TextChanged(object sender, TextChangedEventArgs e)
@@ -76,15 +76,14 @@ namespace Battle_Simulator.Pages
         public void SaveMap(Map.Map map)
         {
             Map.Map tmp;
-            if ((tmp = Maps.Where(x => x.Name == map.Name).FirstOrDefault()) != null)
+            if ((tmp = DataManager.Maps.Where(x => x.Name == map.Name).FirstOrDefault()) != null)
             {
                 tmp = map;
             }
             else
             {
-                Maps.Add(map);
+                DataManager.Maps.Add(map);
             }
-            System.Diagnostics.Debug.WriteLine(Maps.Count);
         }
 
         private void MapSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
