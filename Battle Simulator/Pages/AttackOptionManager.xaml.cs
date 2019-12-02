@@ -38,7 +38,7 @@ namespace Battle_Simulator.Pages
             if (e.AddedItems.Count > 0)
             { 
                 currentAttackOptionIndex = ((ListBox)sender).SelectedIndex;
-                Name.Text = DataManager.AttackOptions[currentAttackOptionIndex].Name;
+                MapName.Text = DataManager.AttackOptions[currentAttackOptionIndex].Name;
                 Die.SelectedItem = DataManager.AttackOptions[currentAttackOptionIndex].DmgDice;
                 StatMod.SelectedItem = DataManager.AttackOptions[currentAttackOptionIndex].AttributeMod;
                 FlatDmgBonus.Text = DataManager.AttackOptions[currentAttackOptionIndex].DefaultDmgBonus;
@@ -48,6 +48,10 @@ namespace Battle_Simulator.Pages
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
+            if(DataManager.AttackOptions.Count() == 0)
+            {
+                currentAttackOptionIndex = -1;
+            }
             SaveOption();
         }
         private void SaveOption()
@@ -61,7 +65,7 @@ namespace Battle_Simulator.Pages
             {
                 currentAttackOption = DataManager.AttackOptions[currentAttackOptionIndex];
             }
-            currentAttackOption.Name = Name.Text;
+            currentAttackOption.Name = MapName.Text;
             currentAttackOption.AttributeMod = (AttackStatModifier)StatMod.SelectedItem;
             currentAttackOption.DmgDice = (Dice)Die.SelectedItem;
             currentAttackOption.DefaultDmgBonus = FlatDmgBonus.Text;
@@ -79,6 +83,14 @@ namespace Battle_Simulator.Pages
         {
             currentAttackOptionIndex = -1;
             SaveOption();
+        }
+
+        private void AttackOptionDelete_Click(object sender, RoutedEventArgs e)
+        {
+            if(AttackOptionSelector.SelectedItem != null)
+            {
+                DataManager.AttackOptions.Remove((AttackOption)AttackOptionSelector.SelectedItem);
+            }
         }
     }
 }

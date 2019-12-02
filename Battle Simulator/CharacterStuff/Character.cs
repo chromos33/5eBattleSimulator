@@ -7,6 +7,7 @@ namespace Battle_Simulator.CharacterStuff
     public class Character
     {
         public int AC;
+        public string Name;
         public Dice HPDice;
         public int ConMod;
         public int Level;
@@ -15,6 +16,10 @@ namespace Battle_Simulator.CharacterStuff
         public CharacterType type;
         public List<AttackOption> AttackOptions;
 
+        public override string ToString()
+        {
+            return Name;
+        }
         //For NPC
         public Character(int AC,Dice HPDice,int ConMod,int Level, List<AttackOption> options = null)
         {
@@ -31,8 +36,7 @@ namespace Battle_Simulator.CharacterStuff
             else
             {
                 AttackOptions = new List<AttackOption>();
-            }
-            
+            } 
         }
         //For PC
         public Character(int AC,int TotalHealth,List<AttackOption> options = null)

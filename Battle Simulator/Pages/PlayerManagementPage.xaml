@@ -1,0 +1,112 @@
+﻿<Page x:Class="Battle_Simulator.Pages.PlayerManagementPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Battle_Simulator.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800" Background="White"
+      Title="PlayerCreationPage">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <Label Content="Characters" HorizontalAlignment="Stretch" Grid.Row="0" VerticalAlignment="Bottom" Margin="5,0,5,0"/>
+            <ListBox x:Name="CharacterSelector" Grid.Column="0" Margin="5,5,5,5" Grid.Row="1" SelectionChanged="CharacterSelector_SelectionChanged" />
+            <Button Content="Löschen" x:Name="MapDelete" Grid.Row="2" Margin="5,0,5,5" Click="MapDelete_Click"/>
+        </Grid>
+        <Grid Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <Label Content="Name" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" />
+            <TextBox x:Name="CharacterName" Text="" Grid.Row="2" Grid.ColumnSpan="2" />
+            <Grid Grid.Row="3" Grid.ColumnSpan="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Label Content="STR" Grid.Row="0" Grid.Column="0"/>
+                <TextBox x:Name="STR" Grid.Row="1" Grid.Column="0" />
+
+                <Label Content="DEX" Grid.Row="0" Grid.Column="1"/>
+                <TextBox x:Name="DEX" Grid.Row="1" Grid.Column="1" />
+
+                <Label Content="CON" Grid.Row="0" Grid.Column="2"/>
+                <TextBox x:Name="CON" Grid.Row="1" Grid.Column="2" />
+
+                <Label Content="INT" Grid.Row="0" Grid.Column="3"/>
+                <TextBox x:Name="INT" Grid.Row="1" Grid.Column="3" />
+
+                <Label Content="WIS" Grid.Row="0" Grid.Column="4"/>
+                <TextBox x:Name="WIS" Grid.Row="1" Grid.Column="4" />
+
+                <Label Content="CHA" Grid.Row="0" Grid.Column="5"/>
+                <TextBox x:Name="CHA" Grid.Row="1" Grid.Column="6" />
+            </Grid>
+            <Grid Grid.Row="4" Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+                <Label Content="AttackOptions" Grid.Row="0" />
+                <ComboBox x:Name="AddAttackOptionList" Grid.Row="1"/>
+                <Button Grid.Row="2" x:Name="AddAttackOption" Content="Add" Click="AddAttackOption_Click" />
+                <ListBox x:Name="AttackOptionList" Grid.Row="3"/>
+            </Grid>
+            <Grid Grid.Row="4" Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+                <Label Content="AC" Grid.Row="0" />
+                <TextBox x:Name="AC" Grid.Row="1" />
+                <Label Content="HP" Grid.Row="2" />
+                <TextBox x:Name="HP" Grid.Row="3" />
+                <Label Content="HPDice" Grid.Row="4" />
+                <ComboBox x:Name="HPDice" Grid.Row="5" />
+                <Label Content="Level" Grid.Row="6" />
+                <TextBox x:Name="Level" Grid.Row="7" />
+            </Grid>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"  Grid.Row="5" Grid.Column="1" Margin="0,0,0,5">
+                <Button x:Name="AddNew" Content="AddNew" Margin="5,0,5,0" Click="AddNew_Click" />
+                <Button x:Name="Save" Content="Save" Margin="5,0,5,0" Click="Save_Click" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+    
+</Page>

@@ -88,10 +88,21 @@ namespace Battle_Simulator.Pages
 
         private void MapSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Map.Map selectedMap = (Map.Map) e.AddedItems[0];
-            WidthInputField.Text = selectedMap.Width.ToString();
-            HeightInputField.Text = selectedMap.Height.ToString();
-            MapNameInputField.Text = selectedMap.Name;
+            if(e.AddedItems.Count > 0)
+            {
+                Map.Map selectedMap = (Map.Map)e.AddedItems[0];
+                WidthInputField.Text = selectedMap.Width.ToString();
+                HeightInputField.Text = selectedMap.Height.ToString();
+                MapNameInputField.Text = selectedMap.Name;
+            }
+        }
+
+        private void MapDelete_Click(object sender, RoutedEventArgs e)
+        {
+            if(MapSelector.SelectedItem != null)
+            {
+                DataManager.Maps.Remove((Map.Map)MapSelector.SelectedItem);
+            }
         }
     }
 }

@@ -17,9 +17,11 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="1*"/>
+                <RowDefinition Height="30"/>
             </Grid.RowDefinitions>
             <Label Content="Attack Options" HorizontalAlignment="Stretch" Grid.Row="0" VerticalAlignment="Bottom" Margin="5,0,5,0"/>
             <ListBox x:Name="AttackOptionSelector" Grid.Column="0" Margin="5,5,5,5" Grid.Row="1" SelectionChanged="AttackOptionSelector_SelectionChanged"/>
+            <Button x:Name="AttackOptionDelete" Grid.Column="0" Grid.Row="2" Margin="5,0,5,5" Content="Delete" Click="AttackOptionDelete_Click" />
         </Grid>
         <Grid Grid.Column="1">
             <Grid.ColumnDefinitions>
@@ -38,7 +40,7 @@
                 <RowDefinition Height="30"/>
             </Grid.RowDefinitions>
             <Label Content="Name" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
-            <TextBox x:Name="Name" Text="" Grid.Row="2" TextWrapping="Wrap" Margin="0,0,5,0"/>
+            <TextBox x:Name="MapName" Text="" Grid.Row="2" TextWrapping="Wrap" Margin="0,0,5,0"/>
             <Label Content="Die" Grid.Row="3" Grid.Column="0"/>
             <ComboBox x:Name="Die" Grid.Row="4" Margin="0,0,5,0" />
             <Label Content="Stat Mod" Grid.Row="3" Grid.Column="1"/>
