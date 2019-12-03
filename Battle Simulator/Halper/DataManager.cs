@@ -12,13 +12,26 @@ namespace Battle_Simulator.Halper
     {
         public TrulyObservableCollection<Map.Map> Maps = new TrulyObservableCollection<Map.Map>();
         public TrulyObservableCollection<AttackOption> AttackOptions = new TrulyObservableCollection<AttackOption>();
+        public TrulyObservableCollection<Character> Characters = new TrulyObservableCollection<Character>();
 
         public DataManager()
         {
             ReadData();
             Maps.CollectionChanged += MapsUpdated;
             AttackOptions.CollectionChanged += AttackOptionsUpdated;
+            Characters.CollectionChanged += CharactersUpdated;
         }
+
+        private void CharactersUpdated(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            string json = JsonConvert.SerializeObject(Characters);
+            string docPath = System.IO.Directory.GetCurrentDirectory();
+            using (StreamWriter outputFile = new StreamWriter(System.IO.Path.Combine(docPath, "Characters.json")))
+            {
+                outputFile.WriteLine(json);
+            }
+        }
+
         private void MapsUpdated(object sender, NotifyCollectionChangedEventArgs e)
         {
             string json = JsonConvert.SerializeObject(Maps);
@@ -54,6 +67,14 @@ namespace Battle_Simulator.Halper
                 {
                     string json = inputfile.ReadToEnd();
                     AttackOptions = JsonConvert.DeserializeObject<TrulyObservableCollection<AttackOption>>(json);
+                }
+            }
+            if (File.Exists(System.IO.Path.Combine(docPath, "Characters.json")))
+            {
+                using (StreamReader inputfile = new StreamReader(System.IO.Path.Combine(docPath, "Characters.json")))
+                {
+                    string json = inputfile.ReadToEnd();
+                    Characters = JsonConvert.DeserializeObject<TrulyObservableCollection<Character>>(json);
                 }
             }
         }

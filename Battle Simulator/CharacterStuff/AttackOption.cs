@@ -11,8 +11,9 @@ namespace Battle_Simulator.CharacterStuff
         public Dice DmgDice;
         public string DefaultDmgBonus;
         private Random rng;
-        public AttackStatModifier AttributeMod = AttackStatModifier.STR;
+        public AttributeName AttributeMod = AttributeName.STR;
         public int AttributeBonus;
+        public bool AttributeBonusToDmg;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -46,7 +47,12 @@ namespace Battle_Simulator.CharacterStuff
 
         public int RollDamage()
         {
-            return rng.Next(1, (int)DmgDice) + parseFlatDmgBonus() + AttributeBonus;
+            int dmg = 0;
+            if(AttributeBonusToDmg)
+            {
+                dmg = AttributeBonus;
+            }
+            return rng.Next(1, (int)DmgDice) + parseFlatDmgBonus() + dmg;
         }
     }
 
@@ -60,7 +66,7 @@ namespace Battle_Simulator.CharacterStuff
         D12 = 12,
         D20 = 20
     }
-    public enum AttackStatModifier
+    public enum AttributeName
     {
         NONE = 0,
         STR = 1,

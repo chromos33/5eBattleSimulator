@@ -29,7 +29,7 @@ namespace Battle_Simulator.Pages
             InitializeComponent();
             this.DataManager = DataManager;
             Die.ItemsSource = Enum.GetValues(typeof(Dice));
-            StatMod.ItemsSource = Enum.GetValues(typeof(AttackStatModifier));
+            StatMod.ItemsSource = Enum.GetValues(typeof(AttributeName));
             AttackOptionSelector.ItemsSource = DataManager.AttackOptions;
         }
 
@@ -42,6 +42,7 @@ namespace Battle_Simulator.Pages
                 Die.SelectedItem = DataManager.AttackOptions[currentAttackOptionIndex].DmgDice;
                 StatMod.SelectedItem = DataManager.AttackOptions[currentAttackOptionIndex].AttributeMod;
                 FlatDmgBonus.Text = DataManager.AttackOptions[currentAttackOptionIndex].DefaultDmgBonus;
+                StatModDmgEnabled.IsChecked = DataManager.AttackOptions[currentAttackOptionIndex].AttributeBonusToDmg;
             }
 
         }
@@ -66,9 +67,10 @@ namespace Battle_Simulator.Pages
                 currentAttackOption = DataManager.AttackOptions[currentAttackOptionIndex];
             }
             currentAttackOption.Name = MapName.Text;
-            currentAttackOption.AttributeMod = (AttackStatModifier)StatMod.SelectedItem;
+            currentAttackOption.AttributeMod = (AttributeName)StatMod.SelectedItem;
             currentAttackOption.DmgDice = (Dice)Die.SelectedItem;
             currentAttackOption.DefaultDmgBonus = FlatDmgBonus.Text;
+            currentAttackOption.AttributeBonusToDmg = (bool)StatModDmgEnabled.IsChecked;
             if (currentAttackOptionIndex == -1)
             {
                 DataManager.AttackOptions.Add(currentAttackOption);

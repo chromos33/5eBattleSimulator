@@ -20,7 +20,7 @@
             </Grid.RowDefinitions>
             <Label Content="Characters" HorizontalAlignment="Stretch" Grid.Row="0" VerticalAlignment="Bottom" Margin="5,0,5,0"/>
             <ListBox x:Name="CharacterSelector" Grid.Column="0" Margin="5,5,5,5" Grid.Row="1" SelectionChanged="CharacterSelector_SelectionChanged" />
-            <Button Content="Löschen" x:Name="MapDelete" Grid.Row="2" Margin="5,0,5,5" Click="MapDelete_Click"/>
+            <Button Content="Löschen" x:Name="MapDelete" Grid.Row="2" Margin="5,0,5,5" Click="CharacterDelete_Click"/>
         </Grid>
         <Grid Grid.Column="1">
             <Grid.ColumnDefinitions>
@@ -104,7 +104,7 @@
             </Grid>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"  Grid.Row="5" Grid.Column="1" Margin="0,0,0,5">
                 <Button x:Name="AddNew" Content="AddNew" Margin="5,0,5,0" Click="AddNew_Click" />
-                <Button x:Name="Save" Content="Save" Margin="5,0,5,0" Click="Save_Click" />
+                <Button Content="Save" Margin="5,0,5,0" />
             </StackPanel>
         </Grid>
     </Grid>
