@@ -1,0 +1,34 @@
+﻿<Page x:Class="Battle_Simulator.Pages.MapCharacterPlacementPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Battle_Simulator.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800" Background="White"
+      Title="MapCharacterPlacementPage">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0" Margin="5,0,5,0">
+            <Grid.RowDefinitions>
+                <RowDefinition  Height="30"/>
+                <RowDefinition  Height="30"/>
+                <RowDefinition  Height="30"/>
+                <RowDefinition  Height="30"/>
+                <RowDefinition  Height="30"/>
+                <RowDefinition  Height="30"/>
+                <RowDefinition  Height="30"/>
+            </Grid.RowDefinitions>
+            <Label Content="Map"/>
+            <ComboBox  x:Name="MapSelector" Grid.Row="1" SelectionChanged="MapSelector_SelectionChanged" />
+            <Label Content="Character" Grid.Row="2"/>
+            <ComboBox  x:Name="CharacterSelector" Grid.Row="3" />
+            <Label Content="Character Typ" Grid.Row="4"/>
+            <ComboBox x:Name="Allegiance" Grid.Row="5"/>
+        </Grid>
+        <ScrollViewer x:Name="MapContainer" Grid.Column="1"/>
+    </Grid>
+</Page>

@@ -25,6 +25,23 @@ namespace Battle_Simulator.Map
             this.type = type;
             Coordinates = new MapPoint(X, Y);
         }
+        private CharacterStuff.Character Occupant;
+
+        public bool IsOccupied()
+        {
+            return Occupant != null;
+        }
+        public void SetOccupant(CharacterStuff.Character newOccupant)
+        {
+            if(!IsOccupied())
+            {
+                Occupant = newOccupant;
+            }
+        }
+        public void UnsetOccupant()
+        {
+            Occupant = null;
+        }
 
         public Button GetButton()
         {
@@ -45,6 +62,15 @@ namespace Battle_Simulator.Map
             Control.Height = 30;
             Control.Click += handleStateChange;
             Control.Content = "";
+            updateBackgroundColor();
+        }
+        public void InitialiseMapPlacementControls()
+        {
+            Control = new Button();
+            Control.Width = 30;
+            Control.Height = 30;
+            Control.Content = "";
+            Control.Tag = this;
             updateBackgroundColor();
         }
         void handleStateChange(object sender, RoutedEventArgs e)
@@ -83,6 +109,10 @@ namespace Battle_Simulator.Map
                     Control.Foreground = Brushes.Black;
                     break;
             }
+        }
+        public MapSquare GetClone()
+        {
+            return new MapSquare(Coordinates.X, Coordinates.Y, type);
         }
     }
 

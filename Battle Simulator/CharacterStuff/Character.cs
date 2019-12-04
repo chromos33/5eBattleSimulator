@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Battle_Simulator.Map;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
@@ -8,7 +9,7 @@ namespace Battle_Simulator.CharacterStuff
     public class Character : INotifyPropertyChanged
     {
         private int str;
-        public int Str{get{return str;}set{str = value;OnChanged();}}
+        public int Str { get { return str; } set { str = value; OnChanged(); } }
 
         private int dex;
         public int Dex { get { return dex; } set { dex = value; OnChanged(); } }
@@ -27,19 +28,39 @@ namespace Battle_Simulator.CharacterStuff
 
 
         private int ac;
-        public int AC {
-            get {
+        public int AC
+        {
+            get
+            {
                 return ac;
             }
-            set {
+            set
+            {
                 ac = value;
                 OnChanged();
-            } 
+            }
         }
 
+        private MapSquare Position;
+
+        public bool HasPosition()
+        {
+            return Position != null;
+        }
+        public void SetPosition(MapSquare square)
+        {
+            Position = square;
+        }
+        public void UnsetPosition()
+        {
+            Position = null;
+        }
 
         private string name;
-        public string Name { get {
+        public string Name
+        {
+            get
+            {
                 return name;
             }
             set
@@ -49,7 +70,8 @@ namespace Battle_Simulator.CharacterStuff
             }
         }
         private Dice hpdice;
-        public Dice HPDice {
+        public Dice HPDice
+        {
             get
             {
                 return hpdice;
@@ -61,7 +83,8 @@ namespace Battle_Simulator.CharacterStuff
             }
         }
         private int conmod;
-        public int ConMod {
+        public int ConMod
+        {
             get
             {
                 return conmod;
@@ -73,7 +96,8 @@ namespace Battle_Simulator.CharacterStuff
             }
         }
         private int level;
-        public int Level {
+        public int Level
+        {
             get
             {
                 return level;
@@ -85,7 +109,8 @@ namespace Battle_Simulator.CharacterStuff
             }
         }
         private int totalhealth;
-        public int TotalHealth {
+        public int TotalHealth
+        {
             get
             {
                 return totalhealth;
@@ -98,7 +123,8 @@ namespace Battle_Simulator.CharacterStuff
         }
 
         private CharacterType type;
-        public CharacterType Type {
+        public CharacterType Type
+        {
             get
             {
                 return type;
@@ -110,7 +136,8 @@ namespace Battle_Simulator.CharacterStuff
             }
         }
         private List<AttackOption> attackOptions = new List<AttackOption>();
-        public List<AttackOption> AttackOptions {
+        public List<AttackOption> AttackOptions
+        {
             get
             {
                 return attackOptions;
@@ -126,8 +153,9 @@ namespace Battle_Simulator.CharacterStuff
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void OnChanged() {
-            if(PropertyChanged != null)
+        private void OnChanged()
+        {
+            if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(""));
             }
@@ -137,7 +165,7 @@ namespace Battle_Simulator.CharacterStuff
             return Name;
         }
         //For NPC
-        public Character(int AC,Dice HPDice,int ConMod,int Level, List<AttackOption> options = null)
+        public Character(int AC, Dice HPDice, int ConMod, int Level, List<AttackOption> options = null)
         {
             rng = new Random();
             this.AC = AC;
@@ -145,17 +173,17 @@ namespace Battle_Simulator.CharacterStuff
             this.ConMod = ConMod;
             this.Level = Level;
             Type = CharacterType.NPC;
-            if(options != null)
+            if (options != null)
             {
                 AttackOptions = options;
             }
             else
             {
                 AttackOptions = new List<AttackOption>();
-            } 
+            }
         }
         //For PC
-        public Character(int AC,int TotalHealth,List<AttackOption> options = null)
+        public Character(int AC, int TotalHealth, List<AttackOption> options = null)
         {
             this.AC = AC;
             this.TotalHealth = TotalHealth;
@@ -176,7 +204,7 @@ namespace Battle_Simulator.CharacterStuff
         }
         public void AddAttackOption(AttackOption option)
         {
-            if(AttackOptions == null)
+            if (AttackOptions == null)
             {
                 AttackOptions = new List<AttackOption>();
             }
@@ -199,7 +227,7 @@ namespace Battle_Simulator.CharacterStuff
         }
         public int GetAttribute(AttributeName attribute)
         {
-            switch(attribute)
+            switch (attribute)
             {
                 case AttributeName.STR: return Str;
                 case AttributeName.DEX: return Dex;
@@ -209,6 +237,20 @@ namespace Battle_Simulator.CharacterStuff
                 case AttributeName.CHA: return Cha;
                 default: return 0;
             }
+        }
+        public Character GetClone()
+        {
+            Character newChar = (Character)this.MemberwiseClone();
+            return newChar;
+        }
+        public string GetPlacementKey()
+        {
+            int max = Name.Length;
+            if(max > 3)
+            {
+                max = 3;
+            }
+            return Name.Substring(0, max);
         }
     }
     public enum CharacterType

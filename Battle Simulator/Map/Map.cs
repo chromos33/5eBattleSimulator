@@ -43,5 +43,16 @@ namespace Battle_Simulator.Map
                 }
             }
         }
+        public Map GetClone()
+        {
+            Map clone = new Map(Width,Height,Name);
+            clone.MapSquares = new MapSquare[Width * Height];
+            for(int i = 0; i < Width*Height; i++)
+            {
+                clone.MapSquares[i] = MapSquares[i].GetClone();
+            } 
+
+            return clone;
+        }
     }
 }

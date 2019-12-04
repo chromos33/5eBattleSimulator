@@ -96,5 +96,20 @@ namespace Battle_Simulator
                 Main.Content = page;
             }
         }
+
+        private void CharacterPlacementLink_Click(object sender, RoutedEventArgs e)
+        {
+            Page page;
+            if ((page = LoadedPages.Where(x => x.GetType() == typeof(MapCharacterPlacementPage)).FirstOrDefault()) != null)
+            {
+                Main.Content = page;
+            }
+            else
+            {
+                page = new MapCharacterPlacementPage(DataManager);
+                LoadedPages.Add(page);
+                Main.Content = page;
+            }
+        }
     }
 }
