@@ -59,10 +59,6 @@ namespace Battle_Simulator.Halper
                 {
                     string json = inputfile.ReadToEnd();
                     Maps = JsonConvert.DeserializeObject<TrulyObservableCollection<Map.Map>>(json);
-                    foreach(Map.Map map in Maps)
-                    {
-                        map.SetUpChangedEvents();
-                    }
                 }
             }
             if (File.Exists(System.IO.Path.Combine(docPath, "AttackOptions.json")))

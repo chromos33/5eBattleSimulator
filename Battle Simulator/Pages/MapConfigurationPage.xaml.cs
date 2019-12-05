@@ -35,6 +35,7 @@ namespace Battle_Simulator.Pages
             if(e.AddedItems.Count > 0)
             {
                 Map.Map selectedMap = (Map.Map)e.AddedItems[0];
+                selectedMap.SetUpChangedEvents();
                 Grid MapGrid = new Grid();
                 for (int x = 0; x < selectedMap.Width; x++)
                 {
