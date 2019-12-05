@@ -43,6 +43,13 @@ namespace Battle_Simulator.Map
                 }
             }
         }
+        public void SetUpChangedEvents()
+        {
+            foreach(MapSquare square in MapSquares)
+            {
+                square.PropertyChanged += MapSquareChanged;
+            }
+        }
         public Map GetClone()
         {
             Map clone = new Map(Width,Height,Name);

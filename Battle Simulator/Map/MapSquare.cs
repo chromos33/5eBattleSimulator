@@ -31,15 +31,25 @@ namespace Battle_Simulator.Map
         {
             return Occupant != null;
         }
+        public bool AlreadyOccupies(CharacterStuff.Character newOccupant)
+        {
+            return Occupant == newOccupant;
+        }
         public void SetOccupant(CharacterStuff.Character newOccupant)
         {
             if(!IsOccupied())
             {
                 Occupant = newOccupant;
+                GetButton().Content = Occupant.GetPlacementKey();
             }
+        }
+        public CharacterStuff.Character GetOccupant()
+        {
+            return Occupant;
         }
         public void UnsetOccupant()
         {
+            GetButton().Content = "";
             Occupant = null;
         }
 
@@ -67,8 +77,8 @@ namespace Battle_Simulator.Map
         public void InitialiseMapPlacementControls()
         {
             Control = new Button();
-            Control.Width = 30;
-            Control.Height = 30;
+            Control.Width = 45;
+            Control.Height = 45;
             Control.Content = "";
             Control.Tag = this;
             updateBackgroundColor();

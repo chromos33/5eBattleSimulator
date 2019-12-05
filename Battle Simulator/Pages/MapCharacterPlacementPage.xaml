@@ -20,6 +20,7 @@
                 <RowDefinition  Height="30"/>
                 <RowDefinition  Height="30"/>
                 <RowDefinition  Height="30"/>
+                <RowDefinition  Height="*"/>
                 <RowDefinition  Height="30"/>
             </Grid.RowDefinitions>
             <Label Content="Map"/>
@@ -28,6 +29,8 @@
             <ComboBox  x:Name="CharacterSelector" Grid.Row="3" />
             <Label Content="Character Typ" Grid.Row="4"/>
             <ComboBox x:Name="Allegiance" Grid.Row="5"/>
+            <ListBox x:Name="CharacterList" Grid.Row="6"/>
+            <Button x:Name="AddCharacter" Content="Add Character" Grid.Row="7" Click="AddCharacter_Click"/>
         </Grid>
         <ScrollViewer x:Name="MapContainer" Grid.Column="1"/>
     </Grid>

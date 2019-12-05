@@ -22,6 +22,7 @@ namespace Battle_Simulator.Pages
     public partial class MapCharacterPlacementPage : Page
     {
         DataManager DataManager;
+        List<Character> MapCharacters = new List<Character>();
         public MapCharacterPlacementPage(DataManager DataManager )
         {
             InitializeComponent();
@@ -29,6 +30,7 @@ namespace Battle_Simulator.Pages
             Allegiance.ItemsSource = Enum.GetValues(typeof(CharacterType));
             CharacterSelector.IsEnabled = false;
             MapSelector.ItemsSource = DataManager.Maps;
+            CharacterList.ItemsSource = MapCharacters;
         }
 
         private void MapSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -40,11 +42,11 @@ namespace Battle_Simulator.Pages
                 Grid MapGrid = new Grid();
                 for (int x = 0; x < selectedMap.Width; x++)
                 {
-                    MapGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(30) });
+                    MapGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(45) });
                 }
                 for (int y = 0; y < selectedMap.Width; y++)
                 {
-                    MapGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(30) });
+                    MapGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(45) });
                 }
                 foreach (MapSquare square in selectedMap.MapSquares)
                 {
@@ -60,23 +62,28 @@ namespace Battle_Simulator.Pages
 
         private void CharacterPlaced(object sender, RoutedEventArgs e)
         {
-            if(CharacterSelector.SelectedItem != null)
+            if(CharacterList.SelectedItem != null && ((MapSquare)((Button)sender).Tag).IsWalkable())
             {
-                if(!((MapSquare)((Button)sender).Tag).IsOccupied())
-                {
-                    //think this through better...
-                    //ui would be better if you had an extra list where you added Characters to before placing on board
-                    Character selectedCharacter = ((Character)CharacterSelector.SelectedItem).GetClone();
-                    //if(selectedCharacter.)
-                    ((MapSquare)((Button)sender).Tag).SetOccupant(selectedCharacter);
-                    selectedCharacter.SetPosition(((MapSquare)((Button)sender).Tag));
-                } 
+                ((MapSquare)((Button)sender).Tag).SetOccupant((Character)CharacterList.SelectedItem);
+                ((Character)CharacterList.SelectedItem).GetPosition()?.UnsetOccupant();
+                ((Character)CharacterList.SelectedItem).SetPosition(((MapSquare)((Button)sender).Tag));
             }
         }
 
         private void enableUI()
         {
             CharacterSelector.IsEnabled = true;
+        }
+
+        private void AddCharacter_Click(object sender, RoutedEventArgs e)
+        {
+            if(CharacterSelector.SelectedItem != null)
+            {
+                Character selectedCharacter = ((Character)CharacterSelector.SelectedItem).GetClone(MapCharacters.Count);
+                selectedCharacter.Type = CharacterType.NPC;
+                MapCharacters.Add(selectedCharacter);
+                CharacterList.Items.Refresh();
+            }
         }
     }
 }

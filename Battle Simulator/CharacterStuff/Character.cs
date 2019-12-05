@@ -8,6 +8,7 @@ namespace Battle_Simulator.CharacterStuff
 {
     public class Character : INotifyPropertyChanged
     {
+        private int Id;
         private int str;
         public int Str { get { return str; } set { str = value; OnChanged(); } }
 
@@ -54,6 +55,10 @@ namespace Battle_Simulator.CharacterStuff
         public void UnsetPosition()
         {
             Position = null;
+        }
+        public MapSquare GetPosition()
+        {
+            return Position;
         }
 
         private string name;
@@ -162,6 +167,10 @@ namespace Battle_Simulator.CharacterStuff
         }
         public override string ToString()
         {
+            if(Id > 0)
+            {
+                return GetPlacementKey();
+            }
             return Name;
         }
         //For NPC
@@ -238,9 +247,11 @@ namespace Battle_Simulator.CharacterStuff
                 default: return 0;
             }
         }
-        public Character GetClone()
+        public Character GetClone(int Id)
         {
             Character newChar = (Character)this.MemberwiseClone();
+            Id++;
+            newChar.Id = Id;
             return newChar;
         }
         public string GetPlacementKey()
@@ -250,7 +261,7 @@ namespace Battle_Simulator.CharacterStuff
             {
                 max = 3;
             }
-            return Name.Substring(0, max);
+            return Name.Substring(0, max)+Id.ToString();
         }
     }
     public enum CharacterType
