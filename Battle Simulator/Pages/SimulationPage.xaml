@@ -1,0 +1,30 @@
+﻿<Page x:Class="Battle_Simulator.Pages.SimulationPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Battle_Simulator.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800" Background="White"
+      Title="SimulationPage">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="4*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0">
+            <Label Content="Number Of Simulations" Margin="0,0,0,5"/>
+            <TextBox x:Name="Simulations" Margin="0,0,0,5" TextChanged="Simulations_TextChanged"/>
+            <Button Content="Simulate" Margin="0,0,0,5" Click="SimulationStart_Click"/>
+        </StackPanel>
+        <StackPanel Grid.Column="1">
+            <Label Content="TPK Probability" Margin="0,0,0,5"/>
+            <Label x:Name="TPKProb"/>
+            <Label Content="Some Dead Probability" Margin="0,0,0,5"/>
+            <Label x:Name="SomeProb"/>
+            <Label Content="No Death Probability" Margin="0,0,0,5"/>
+            <Label x:Name="NoDProb"/>
+        </StackPanel>
+    </Grid>
+</Page>

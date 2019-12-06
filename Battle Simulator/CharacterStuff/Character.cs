@@ -263,6 +263,11 @@ namespace Battle_Simulator.CharacterStuff
             }
             return Name.Substring(0, max)+Id.ToString();
         }
+        public Character GetClone()
+        {
+            Character newChar = (Character)this.MemberwiseClone();
+            return newChar;
+        }
     }
     public enum CharacterType
     {

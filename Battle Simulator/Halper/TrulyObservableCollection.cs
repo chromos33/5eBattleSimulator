@@ -44,7 +44,14 @@ namespace Battle_Simulator.Halper
         private void ItemPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             NotifyCollectionChangedEventArgs args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, sender, sender, IndexOf((T)sender));
-            OnCollectionChanged(args);
+            try
+            {
+                OnCollectionChanged(args);
+            }catch (InvalidOperationException ex)
+             {
+                Console.WriteLine(ex);
+            }
+            
         }
     }
 }

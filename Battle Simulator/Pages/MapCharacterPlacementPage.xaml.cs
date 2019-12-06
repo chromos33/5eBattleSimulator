@@ -3,6 +3,7 @@ using Battle_Simulator.Halper;
 using Battle_Simulator.Map;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -80,9 +81,31 @@ namespace Battle_Simulator.Pages
             if(CharacterSelector.SelectedItem != null)
             {
                 Character selectedCharacter = ((Character)CharacterSelector.SelectedItem).GetClone(MapCharacters.Count);
-                selectedCharacter.Type = CharacterType.NPC;
+                selectedCharacter.Type = (CharacterType)Allegiance.SelectedItem;
                 MapCharacters.Add(selectedCharacter);
                 CharacterList.Items.Refresh();
+            }
+        }
+
+        private void Simulate_Click(object sender, RoutedEventArgs e)
+        {
+            if(MapSelector.SelectedItem != null && MapCharacters.Where(x => x.Type == CharacterType.NPC).Count() > 0 && MapCharacters.Where(x => x.Type == CharacterType.PC).Count() > 0)
+            {
+                Map.Map simulationMap = ((Map.Map)MapSelector.SelectedItem);
+                simulationMap.SetCharacterList(MapCharacters);
+                Frame pageFrame = null;
+                DependencyObject currParent = VisualTreeHelper.GetParent(this);
+                while (currParent != null && pageFrame == null)
+                {
+                    pageFrame = currParent as Frame;
+                    currParent = VisualTreeHelper.GetParent(currParent);
+                }
+
+                // Change the page of the frame.
+                if (pageFrame != null)
+                {
+                    pageFrame.Content = new SimulationPage(simulationMap);
+                }
             }
         }
     }

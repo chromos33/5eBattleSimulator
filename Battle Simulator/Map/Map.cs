@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Battle_Simulator.CharacterStuff;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
@@ -11,6 +12,7 @@ namespace Battle_Simulator.Map
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        private List<Character> mapCharacters = new List<Character>();
         public string Name { get; }
         public int Width { get; }
         public int Height { get; }
@@ -43,6 +45,22 @@ namespace Battle_Simulator.Map
                 }
             }
         }
+
+        internal void Simulate()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal Map SimulationClone()
+        {
+            Map simulationmap = GetClone();
+            foreach(Character sourceChar in mapCharacters)
+            {
+                simulationmap.mapCharacters.Add(sourceChar.GetClone());
+            }
+            return simulationmap;
+        }
+
         public void SetUpChangedEvents()
         {
             foreach(MapSquare square in MapSquares)
@@ -60,6 +78,10 @@ namespace Battle_Simulator.Map
             } 
 
             return clone;
+        }
+        public void SetCharacterList(List<Character> MapCharacters)
+        {
+            mapCharacters = MapCharacters;
         }
     }
 }
