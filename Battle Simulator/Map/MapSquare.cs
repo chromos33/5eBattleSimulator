@@ -11,10 +11,27 @@ namespace Battle_Simulator.Map
 {
     public class MapSquare: INotifyPropertyChanged
     {
+        public int g;
+        public int h;
+        public int f;
+        public MapSquare Parent;
+
+        public void InitForPathfinding()
+        {
+            g = 0;
+            h = 0;
+            f = 0;
+        }
+
         public MapPoint Coordinates { get; set; }
 
         public SquareType type;
         public SquareType SquareType { get { return type; } }
+
+        public bool isThisSquare(MapSquare square)
+        {
+            return square.Coordinates.IsSame(Coordinates);
+        }
 
         private Button Control;
 
@@ -59,7 +76,7 @@ namespace Battle_Simulator.Map
         }
         public bool IsWalkable()
         {
-            return SquareType == SquareType.Path;
+            return SquareType == SquareType.Path && !IsOccupied();
         }
         public bool CanShootThrough()
         {
@@ -123,6 +140,10 @@ namespace Battle_Simulator.Map
         public MapSquare GetClone()
         {
             return new MapSquare(Coordinates.X, Coordinates.Y, type);
+        }
+        public bool isAdjacent(MapSquare s1)
+        {
+            return s1.Coordinates.IsAdjacent(Coordinates);
         }
     }
 

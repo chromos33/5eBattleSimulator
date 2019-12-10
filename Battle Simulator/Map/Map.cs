@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Text;
 
 namespace Battle_Simulator.Map
@@ -48,7 +49,85 @@ namespace Battle_Simulator.Map
 
         internal void Simulate()
         {
-            throw new NotImplementedException();
+            RollInitiativeForAll();
+            RollNPCHealth();
+            InitPCHealth();
+            int turn = 0;
+            
+            while (!CombatEnd())
+            {
+                turn++;
+                SimulateTurn();
+            }
+        }
+        private void SimulateTurn()
+        {
+            foreach(Character CharOnTurn in mapCharacters)
+            {
+                CharOnTurn.TakeTurn(this);
+            }
+        }
+        public List<MapSquare> Path(MapSquare s1, MapSquare s2)
+        {
+            InitPathfinding();
+            List<MapSquare> openList = new List<MapSquare>();
+            List<MapSquare> closedList = new List<MapSquare>();
+            int g = 0;
+            openList.Add(s1);
+            while(openList.Count() > 0)
+            {
+                var lowest = openList.Min(l => l.f);
+                MapSquare current = openList.First(l => l.f == lowest);
+                closedList.Add(current);
+                openList.Remove(current);
+                //TODO if square is enemy change target
+                if(closedList.FirstOrDefault(l => l.isThisSquare(s2)) != null)
+                {
+                    break;
+                }
+                var adjacentSquares = AdjacentWalkableSquares(current);
+                //TODO continue on "foreach(var adjacentSquare in adjacentSquares)" https://gigi.nullneuron.net/gigilabs/a-pathfinding-example-in-c/
+            }
+
+            return closedList;
+        }
+        public List<MapSquare> AdjacentWalkableSquares(MapSquare s1)
+        {
+            return MapSquares.Where(x => x.isAdjacent(s1) && x.IsWalkable()).ToList();
+        }
+        public void InitPathfinding()
+        {
+            foreach(MapSquare square in MapSquares)
+            {
+                square.InitForPathfinding();
+            }
+        }
+        private void RollInitiativeForAll()
+        {
+            foreach(Character current in mapCharacters)
+            {
+                current.RollInitiative();
+            }
+            mapCharacters.Sort((x, y) => x.GetInitiative().CompareTo(y.GetInitiative()));
+        }
+        private bool CombatEnd()
+        {
+            return mapCharacters.Where(x => !x.IsAlive() && x.Type == CharacterType.NPC).Count() == 0 || mapCharacters.Where(x => !x.IsAlive() && x.Type == CharacterType.PC).Count() == 0;
+        }
+        private void RollNPCHealth()
+        {
+            foreach (Character current in mapCharacters.Where(x => x.Type == CharacterType.NPC))
+            {
+                current.RollHealth();
+            }
+        }
+        private void InitPCHealth()
+        {
+            foreach (Character current in mapCharacters.Where(x => x.Type == CharacterType.PC))
+            {
+                current.InitHealth();
+            }
+            
         }
 
         internal Map SimulationClone()

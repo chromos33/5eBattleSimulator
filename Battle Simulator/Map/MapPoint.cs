@@ -35,5 +35,9 @@ namespace Battle_Simulator.Map
         {
             return base.GetHashCode();
         }
+        public bool IsSame(MapPoint coordinates)
+        {
+            return coordinates.X == X && coordinates.Y == Y;
+        }
     }
 }

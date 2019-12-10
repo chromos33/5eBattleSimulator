@@ -27,7 +27,6 @@ namespace Battle_Simulator.CharacterStuff
         private int cha;
         public int Cha { get { return cha; } set { cha = value; OnChanged(); } }
 
-
         private int ac;
         public int AC
         {
@@ -40,6 +39,15 @@ namespace Battle_Simulator.CharacterStuff
                 ac = value;
                 OnChanged();
             }
+        }
+        private int initiative;
+        public int GetInitiative()
+        {
+            return initiative;
+        }
+        public void RollInitiative()
+        {
+            initiative = rng.Next(1, 20) + AttributeModifier(AttributeName.DEX);
         }
 
         private MapSquare Position;
@@ -74,6 +82,12 @@ namespace Battle_Simulator.CharacterStuff
                 OnChanged();
             }
         }
+
+        internal void TakeTurn(Map.Map map)
+        {
+
+        }
+
         private Dice hpdice;
         public Dice HPDice
         {
@@ -114,6 +128,7 @@ namespace Battle_Simulator.CharacterStuff
             }
         }
         private int totalhealth;
+        private int currentHealth;
         public int TotalHealth
         {
             get
@@ -125,6 +140,24 @@ namespace Battle_Simulator.CharacterStuff
                 totalhealth = value;
                 OnChanged();
             }
+        }
+        internal void RollHealth()
+        {
+            totalhealth = 0;
+            for(int i = 0; i< Level;i++)
+            {
+                totalhealth += rng.Next(1, (int)HPDice) + AttributeModifier(AttributeName.CON);
+            }
+            currentHealth = totalhealth;
+        }
+        internal void InitHealth()
+        {
+            currentHealth = totalhealth;
+        }
+
+        public bool IsAlive()
+        {
+            return currentHealth > 0;
         }
 
         private CharacterType type;
@@ -210,6 +243,7 @@ namespace Battle_Simulator.CharacterStuff
         {
             Name = "New Character";
             AttackOptions = new List<AttackOption>();
+            rng = new Random();
         }
         public void AddAttackOption(AttackOption option)
         {
