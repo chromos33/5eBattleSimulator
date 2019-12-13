@@ -14,6 +14,7 @@ namespace Battle_Simulator.Map
         public event PropertyChangedEventHandler PropertyChanged;
 
         private List<Character> mapCharacters = new List<Character>();
+
         public string Name { get; }
         public int Width { get; }
         public int Height { get; }
@@ -67,34 +68,79 @@ namespace Battle_Simulator.Map
                 CharOnTurn.TakeTurn(this);
             }
         }
-        public List<MapSquare> Path(MapSquare s1, MapSquare s2)
+        public List<MapSquare> Path(MapSquare Start, MapSquare Target)
         {
             InitPathfinding();
-            List<MapSquare> openList = new List<MapSquare>();
-            List<MapSquare> closedList = new List<MapSquare>();
-            int g = 0;
-            openList.Add(s1);
-            while(openList.Count() > 0)
+            Start.SearchSquare();
+            List<MapSquare> Path = MoveTo(Target, new List<MapSquare>() {Start});
+            return Path;
+        }
+        private List<MapSquare> MoveTo(MapSquare Target,List<MapSquare> Path )
+        {
+            MapSquare current = Path.Last();
+            if(current != null)
             {
-                var lowest = openList.Min(l => l.f);
-                MapSquare current = openList.First(l => l.f == lowest);
-                closedList.Add(current);
-                openList.Remove(current);
-                //TODO if square is enemy change target
-                if(closedList.FirstOrDefault(l => l.isThisSquare(s2)) != null)
+                var AdjacentSquares = MapSquares.Where(x => current.isAdjacent(x) && x.IsWalkable() && !x.hasBeenSearched()).OrderBy(x => x.Coordinates.Distance(Target.Coordinates));
+                var ShortestAdjacentSquare = AdjacentSquares.FirstOrDefault();
+                if (ShortestAdjacentSquare != null)
                 {
+                    ShortestAdjacentSquare.SearchSquare();
+                    Path.Add(ShortestAdjacentSquare);
+                    if (Path.Count >= 3)
+                    {
+                        RemoveRedundantSquares(Path);
+                    }
+                    if (!Path.Last().isThisSquare(Target))
+                    {
+                        Path = MoveTo(Target, Path);
+                    }
+                }
+                else
+                {
+                    if (!Path.Last().isThisSquare(Target))
+                    {
+                        //Stuck Go Backwards through the Path and search for First Square that still has Adjacent Walkable Sqaures and delete until then
+                        for(int i = Path.Count()-1;i>=0;i--)
+                        {
+                            if(MapSquares.Where( x=> x.isAdjacent(Path[i]) && !x.hasBeenSearched()).Count() == 0)
+                            {
+                                Path.RemoveAt(i);
+                            }
+                            else
+                            {
+                                MoveTo(Target, Path);
+                            }
+                        }
+                        if(Path.Count() == 0)
+                        {
+                            throw new Exception("No Path Possible");
+                        }
+                    }
+                }
+                
+            }
+            return Path;
+        }
+        private void RemoveRedundantSquares(List<MapSquare> Path)
+        {
+            int SearchedIndex = -1;
+            int StartIndexSecondBeforeLast = Path.Count() - 3;
+            int LastIndex = Path.Count() - 1;
+            for (int i = StartIndexSecondBeforeLast; i>=0;i--)
+            {
+                if(Path[LastIndex].isAdjacent(Path[i]))
+                {
+                    SearchedIndex = i;
                     break;
                 }
-                var adjacentSquares = AdjacentWalkableSquares(current);
-                //TODO continue on "foreach(var adjacentSquare in adjacentSquares)" https://gigi.nullneuron.net/gigilabs/a-pathfinding-example-in-c/
             }
+            if(SearchedIndex >= 0)
+            {
+                Path.RemoveRange(SearchedIndex + 1, LastIndex - (SearchedIndex + 1));
+            }
+        }
 
-            return closedList;
-        }
-        public List<MapSquare> AdjacentWalkableSquares(MapSquare s1)
-        {
-            return MapSquares.Where(x => x.isAdjacent(s1) && x.IsWalkable()).ToList();
-        }
+
         public void InitPathfinding()
         {
             foreach(MapSquare square in MapSquares)
@@ -112,7 +158,7 @@ namespace Battle_Simulator.Map
         }
         private bool CombatEnd()
         {
-            return mapCharacters.Where(x => !x.IsAlive() && x.Type == CharacterType.NPC).Count() == 0 || mapCharacters.Where(x => !x.IsAlive() && x.Type == CharacterType.PC).Count() == 0;
+            return mapCharacters.Where(x => x.IsAlive() && x.Type == CharacterType.NPC).Count() == 0 || mapCharacters.Where(x => x.IsAlive() && x.Type == CharacterType.PC).Count() == 0;
         }
         private void RollNPCHealth()
         {
@@ -161,6 +207,14 @@ namespace Battle_Simulator.Map
         public void SetCharacterList(List<Character> MapCharacters)
         {
             mapCharacters = MapCharacters;
+        }
+        public List<Character> GetCharacterList()
+        {
+            return mapCharacters;
+        }
+        static int ComputeHScore(int x, int y, int targetX, int targetY)
+        {
+            return Math.Abs(targetX - x) + Math.Abs(targetY - y);
         }
     }
 }

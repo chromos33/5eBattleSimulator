@@ -11,22 +11,32 @@ namespace Battle_Simulator.Map
 {
     public class MapSquare: INotifyPropertyChanged
     {
-        public int g;
-        public int h;
-        public int f;
-        public MapSquare Parent;
 
+
+        public double StraightLineDistanceTo(MapSquare End)
+        {
+            return Math.Sqrt(Math.Pow(Coordinates.X - End.Coordinates.X, 2) + Math.Pow(Coordinates.Y - End.Coordinates.Y, 2));
+        }
+
+        private bool Searched;
+        public bool hasBeenSearched()
+        {
+            return Searched;
+        }
+        public void SearchSquare()
+        {
+            Searched = true;
+        }
         public void InitForPathfinding()
         {
-            g = 0;
-            h = 0;
-            f = 0;
+            Searched = false;
         }
 
         public MapPoint Coordinates { get; set; }
 
         public SquareType type;
         public SquareType SquareType { get { return type; } }
+        public bool Visited { get; set; }
 
         public bool isThisSquare(MapSquare square)
         {
@@ -154,5 +164,4 @@ namespace Battle_Simulator.Map
         RangePassThrough = 3,
         Undefined = 4
     }
-
 }

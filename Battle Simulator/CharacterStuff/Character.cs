@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Text;
 
 namespace Battle_Simulator.CharacterStuff
@@ -85,7 +86,16 @@ namespace Battle_Simulator.CharacterStuff
 
         internal void TakeTurn(Map.Map map)
         {
-
+            //test pathfinding by finding closest
+            foreach(Character currentCharacter in map.GetCharacterList().Where(x => x.Type != Type))
+            {
+               List<MapSquare> path =  map.Path(Position, currentCharacter.Position);
+                foreach(MapSquare square in path)
+                {
+                    System.Diagnostics.Debug.WriteLine("x: " + square.Coordinates.X + " y: " + square.Coordinates.Y);
+                }
+                Console.WriteLine("test");
+            }
         }
 
         private Dice hpdice;

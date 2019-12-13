@@ -15,12 +15,17 @@ namespace Battle_Simulator.Map
             this.Y = Y;
         }
 
+
         public bool IsAdjacent(MapPoint Other)
         {
+            if(IsSame(Other))
+            {
+                return false;
+            }
             int XDistance = X - Other.X;
             int YDistance = Y - Other.Y;
 
-            return Math.Abs(XDistance) <= 1 && Math.Abs(YDistance) <= 1;
+            return Math.Abs(XDistance) <= 1 && Math.Abs(YDistance) <= 1 ;
         }
         public override bool Equals(object Other)
         {
@@ -38,6 +43,18 @@ namespace Battle_Simulator.Map
         public bool IsSame(MapPoint coordinates)
         {
             return coordinates.X == X && coordinates.Y == Y;
+        }
+        public double DistanceToEnd;
+        public double Distance(MapPoint Other)
+        {
+            int XDistance = X - Other.X;
+            int YDistance = Y - Other.Y;
+
+            int pseudoDistance = Math.Abs(XDistance) + Math.Abs(YDistance);
+
+            double DungeonDistance = ((double)pseudoDistance / 2);
+            DistanceToEnd = DungeonDistance;
+            return DungeonDistance;
         }
     }
 }
